@@ -1,4 +1,4 @@
 
 ## Reademe Pset2
 
-aqui vai o texto
+aqui vai o texto.
