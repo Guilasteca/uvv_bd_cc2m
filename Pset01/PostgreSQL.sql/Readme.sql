@@ -1,20 +1,19 @@
-
-CREATE TABLE elmasri.Funcionario (
-                cpf CHAR NOT NULL,
+CREATE TABLE funcionario (
+                cpf CHAR(11) NOT NULL,
                 primeiro_nome VARCHAR(15) NOT NULL,
                 nome_meio CHAR(1),
                 ultimo_nome VARCHAR(15) NOT NULL,
                 data_nascimento DATE,
-                endereço VARCHAR(30),
+                endereo VARCHAR(30),
                 sexo CHAR(1),
                 salario NUMERIC(10,2),
-                cpf_supervisor VARCHAR(11) NOT NULL,
+                cpf_supervisor CHAR(11) NOT NULL,
                 numero_departamento INTEGER NOT NULL,
                 CONSTRAINT funcionario PRIMARY KEY (cpf)
 );
 
 
-CREATE TABLE elmasri.departamento (
+CREATE TABLE departamento (
                 numero_departamento INTEGER NOT NULL,
                 nome_departamento VARCHAR(15) NOT NULL,
                 cpf_gerente CHAR(11) NOT NULL,
@@ -24,27 +23,27 @@ CREATE TABLE elmasri.departamento (
 
 
 CREATE INDEX departamento_idx
- ON elmasri.departamento
+ ON departamento
  ( nome_departamento ASC );
 
 CREATE UNIQUE INDEX departamento_idx1
- ON elmasri.departamento
+ ON departamento
  ( nome_departamento );
 
 CREATE INDEX departamento_idx2
- ON elmasri.departamento
+ ON departamento
  ( cpf_gerente );
 
 CLUSTER departamento_idx2 ON departamento;
 
-CREATE TABLE elmasri.localizacoes_departamento (
+CREATE TABLE localizacoes_departamento (
                 numero_departamento INTEGER NOT NULL,
                 local VARCHAR(15) NOT NULL,
                 CONSTRAINT localizacoes_departamento PRIMARY KEY (numero_departamento, local)
 );
 
 
-CREATE TABLE elmasri.projeto (
+CREATE TABLE projeto (
                 numero_projeto INTEGER NOT NULL,
                 nome_projeto VARCHAR(15) NOT NULL,
                 local_projeto VARCHAR(15),
@@ -54,10 +53,10 @@ CREATE TABLE elmasri.projeto (
 
 
 CREATE UNIQUE INDEX projeto_idx
- ON elmasri.projeto
+ ON projeto
  ( nome_projeto ASC );
 
-CREATE TABLE elmasri.trabalha_em (
+CREATE TABLE trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INTEGER NOT NULL,
                 horas NUMERIC(3,1) NOT NULL,
@@ -65,7 +64,7 @@ CREATE TABLE elmasri.trabalha_em (
 );
 
 
-CREATE TABLE elmasri.dependente (
+CREATE TABLE dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
                 sexo CHAR(1),
@@ -75,55 +74,51 @@ CREATE TABLE elmasri.dependente (
 );
 
 
-/*
-Warning: Column types mismatch in the following column mapping(s):
-        cpf: CHAR -- cpf_supervisor: VARCHAR(11)
-*/
-ALTER TABLE elmasri.Funcionario ADD CONSTRAINT funcionario_funcionario_fk
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario_fk
 FOREIGN KEY (cpf_supervisor)
-REFERENCES elmasri.Funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE elmasri.dependente ADD CONSTRAINT funcionario_dependente_fk
+ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk
 FOREIGN KEY (cpf_funcionario)
-REFERENCES elmasri.Funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE elmasri.trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
+ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
 FOREIGN KEY (cpf_funcionario)
-REFERENCES elmasri.Funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE elmasri.departamento ADD CONSTRAINT funcionario_departamento_fk
+ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento_fk
 FOREIGN KEY (cpf_gerente)
-REFERENCES elmasri.Funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE elmasri.projeto ADD CONSTRAINT departamento_projeto_fk
+ALTER TABLE projeto ADD CONSTRAINT departamento_projeto_fk
 FOREIGN KEY (numero_departamento)
-REFERENCES elmasri.departamento (numero_departamento)
+REFERENCES departamento (numero_departamento)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE elmasri.localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento_fk1
+ALTER TABLE localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento_fk1
 FOREIGN KEY (numero_departamento)
-REFERENCES elmasri.departamento (numero_departamento)
+REFERENCES departamento (numero_departamento)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE elmasri.trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
+ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
 FOREIGN KEY (numero_projeto)
-REFERENCES elmasri.projeto (numero_projeto)
+REFERENCES projeto (numero_projeto)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
