@@ -24,8 +24,8 @@ Questão 03:
 SELECT concat(primeiro_nome, nome_meio, ultimo_nome) 
 AS nome_completo, data_nascimento, year(current_timestamp())-year(data_nascimento) 
 AS idade, salario, d.nome_departamento 
-FROM funcionario f inner 
-JOIN departamento d 
+FROM funcionario f 
+INNER JOIN departamento d 
 ON f.numero_departamento = d.numero_departamento ;
 
 
@@ -91,8 +91,8 @@ Questão 08:
 SELECT distinct numero_departamento, trabalha_em.numero_projeto, concat(f.primeiro_nome, f.nome_meio, f.ultimo_nome) 
 AS nome_funcionario,horas 
 FROM funcionario 
-AS f INNER 
-JOIN trabalha_em 
+AS f
+INNER JOIN trabalha_em 
 ON f.cpf = trabalha_em.cpf_funcionario 
 ORDER BY numero_departamento;
 
@@ -138,8 +138,8 @@ Questão 12:
 
 SELECT CONCAT(primeiro_nome, nome_meio, ultimo_nome) 
 AS funcionario, d.nome_departamento, p.nome_projeto, horas 
-FROM departamento d inner JOIN projeto p ON (d.numero_departamento = p.numero_departamento) inner 
-JOIN trabalha_em t ON (t.numero_projeto = p.numero_projeto) inner JOIN funcionario f ON (t.cpf_funcionario = f.cpf) WHERE t.horas = 0;
+FROM departamento d inner JOIN projeto p ON (d.numero_departamento = p.numero_departamento) 
+INNER JOIN trabalha_em t ON (t.numero_projeto = p.numero_projeto) inner JOIN funcionario f ON (t.cpf_funcionario = f.cpf) WHERE t.horas = 0;
 
 
 
@@ -153,7 +153,7 @@ FROM funcionario union
 SELECT DISTINCT concat(d.nome_dependente, f.nome_meio, f.ultimo_nome) AS nome, d.sexo, year(current_timestamp())-year(d.data_nascimento) 
 AS idade
 FROM dependente d
-inner JOIN funcionario f ON (f.cpf = d.cpf_funcionario)
+INNER JOIN funcionario f ON (f.cpf = d.cpf_funcionario)
 ORDER BY idade DESC;
 
 
@@ -173,6 +173,6 @@ Questão 15:
 
 SELECT distinct concat(f.primeiro_nome, f.nome_meio, f.ultimo_nome) AS nome_completo, f.numero_departamento, p.nome_projeto
 FROM funcionario f
-inner JOIN trabalha_em te ON (f.cpf = te.cpf_funcionario)
+INNER JOIN trabalha_em te ON (f.cpf = te.cpf_funcionario)
 left outer JOIN projeto p ON (p.numero_projeto = te.numero_projeto AND f.cpf = te.cpf_funcionario AND te.horas > 0)
 ORDER BY nome_projeto;
